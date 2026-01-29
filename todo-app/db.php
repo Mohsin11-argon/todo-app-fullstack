@@ -4,9 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$DB_HOST = "localhost";
+$DB_HOST = "db";        
 $DB_USER = "root";
-$DB_PASS = "";
+$DB_PASS = "root";      
 
 // Try multiple database names
 $DB_CANDIDATES = ['todo_db', 'todo-list'];
