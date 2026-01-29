@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Admin Dashboard</title></head>
+<body>
+  <h2>Admin Panel</h2>
+  <div>
+    <form id="taskForm">
+      <input name="title" placeholder="Title"><br>
+      <select name="assigned_to" id="users"></select><br>
+      <input type="file" name="admin_file"><br>
+      <button>Create Task</button>
+    </form>
+  </div>
+  <div>
+    <h3>Tasks</h3>
+    <pre id="tasks"></pre>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) location = '/login.html';
+
+    async function loadUsers() {
+      const res = await fetch('/api/admin/users', { headers: { Authorization: 'Bearer ' + token } });
+      const j = await res.json();
+      const sel = document.getElementById('users');
+      j.users.forEach(u => { const opt = document.createElement('option'); opt.value = u.id; opt.textContent = u.name; sel.appendChild(opt); });
+    }
+    async function loadTasks() {
+      const res = await fetch('/api/admin/summary', { headers: { Authorization: 'Bearer ' + token } });
+      const j = await res.json();
+      document.getElementById('tasks').textContent = JSON.stringify(j.tasks, null, 2);
+    }
+    document.getElementById('taskForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const fd = new FormData(form);
+      const res = await fetch('/api/admin/tasks', { method: 'POST', headers: { Authorization: 'Bearer ' + token }, body: fd });
+      const j = await res.json();
+      alert(JSON.stringify(j));
+      loadTasks();
+    });
+
+    loadUsers(); loadTasks();
+  </script>
+</body>
+</html>

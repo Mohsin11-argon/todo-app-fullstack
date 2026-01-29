@@ -1,0 +1,47 @@
+{
+  "info": {
+    "name": "ToDo App API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "todo-app-collection"
+  },
+  "item": [
+    {
+      "name": "Signup",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"name\":\"Alice\",\"email\":\"alice@example.com\",\"password\":\"pass1234\"}" },
+        "url": { "raw": "http://localhost:3000/api/auth/signup", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api","auth","signup"] }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"email\":\"admin@example.com\",\"password\":\"AdminPass123!\"}" },
+        "url": { "raw": "http://localhost:3000/api/auth/login", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api","auth","login"] }
+      }
+    },
+    {
+      "name": "Admin - Create Task (multipart)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "body": { "mode": "formdata", "formdata": [ { "key": "title", "value": "Task from Postman", "type": "text" }, { "key": "assigned_to", "value": "2", "type": "text" }, { "key": "admin_file", "type": "file", "src": "/path/to/file.pdf" } ] },
+        "url": { "raw": "http://localhost:3000/api/admin/tasks", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api","admin","tasks"] }
+      }
+    },
+    {
+      "name": "User - Get My Tasks",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": { "raw": "http://localhost:3000/api/user/tasks", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["api","user","tasks"] }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "token", "value": "" }
+  ]
+}
